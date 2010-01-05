@@ -25,7 +25,9 @@ cdef class ssdeep:
         pass
 
     def hash_file(self, filename):
-        """compute the ssdeep fuzzy hash for the input filename. 
+        """hash_file(self, filename)
+
+        compute the ssdeep fuzzy hash for the input filename. 
         returns a string with the hash value"""
         res = fuzzy_hash(filename)
         # Py_INCREF(res)
@@ -34,6 +36,8 @@ cdef class ssdeep:
         else: return res
 
     def compare(self, hash1, hash2):
-        """compare two ssdeep hashes to discover their similarities
+        """compare(self, hash1, hash2)
+
+        compare two ssdeep hashes to discover their similarities
         returns an integer 1-100 on the strength of the match. 0 means no match"""
         return fuzzy_compare(hash1, hash2)
