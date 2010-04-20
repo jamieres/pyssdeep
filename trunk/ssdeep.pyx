@@ -13,6 +13,7 @@ cdef extern from "fuzzy.h":
 
 cdef extern from *:
     char * fuzzy_hash(char *filename)
+    char * fuzzy_hash_data(char *buf, int buf_len)
 
 cdef extern from "Python.h":
     void Py_INCREF(object o)
@@ -33,6 +34,15 @@ cdef class ssdeep:
         # Py_INCREF(res)
         if ' oops' in res:
             raise SsdeepException, res.replace(' oops', ' error')
+        else: return res
+
+    def hash_bytes(self, buf):
+        """compute the ssdeep fuzzy hash for the data in the buffer"""
+        cdef char* utext
+        utext = buf
+        res = fuzzy_hash_data(utext,len(buf))
+        if ' oops' in res:
+            raise SsdeepException, res,replace(' oops',' error')
         else: return res
 
     def compare(self, hash1, hash2):

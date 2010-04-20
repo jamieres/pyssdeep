@@ -7,8 +7,12 @@ hashes = {}
 for i in inputs:
     if i.startswith('.'): continue
     h = s.hash_file(i)
-    print '%s %20s' % (i, h)
+    print 'FILE:  %s %20s' % (i, h)
     hashes[i] = h
+    if os.path.isdir(i): continue
+    f = open(i, 'rb')
+    print 'BYTES: %s %20s' % (i, s.hash_bytes(f.read()))
+    f.close()
 
 print 'doing comparison'
 for k, v in hashes.iteritems():
